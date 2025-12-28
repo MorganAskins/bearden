@@ -132,6 +132,21 @@
             50% { opacity: 1; }
         }
 
+        .section {
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .section-header {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #666;
+            margin-bottom: 1rem;
+            padding-left: 0.25rem;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 0.5rem;
@@ -148,6 +163,10 @@
             .card {
                 padding: 1.25rem;
             }
+
+            .section {
+                margin-bottom: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -156,18 +175,36 @@
         <h1>Björnhåla</h1>
     </header>
 
-    <main class="grid">
+    <main>
+        {# Group services by category #}
+        {% set grouped = {} %}
         {% for id, service in services.items() %}
-        <a href="{{ service.url }}" class="card" target="_blank" rel="noopener" style="--accent-color: {{ service.color }}">
-            <div class="card-icon">
-                <i data-feather="{{ service.icon }}"></i>
+            {% set category = service.category | default('Services') %}
+            {% if category not in grouped %}
+                {% set _ = grouped.update({category: []}) %}
+            {% endif %}
+            {% set _ = grouped[category].append((id, service)) %}
+        {% endfor %}
+
+        {# Render each section #}
+        {% for category, items in grouped.items() %}
+        <section class="section">
+            <h2 class="section-header">{{ category }}</h2>
+            <div class="grid">
+                {% for id, service in items %}
+                <a href="{{ service.url }}" class="card" target="_blank" rel="noopener" style="--accent-color: {{ service.color }}">
+                    <div class="card-icon">
+                        <i data-feather="{{ service.icon }}"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-name">{{ service.name }}</div>
+                        <div class="card-url">{{ service.url }}</div>
+                    </div>
+                    <div class="health-indicator checking" data-service="{{ id }}"></div>
+                </a>
+                {% endfor %}
             </div>
-            <div class="card-content">
-                <div class="card-name">{{ service.name }}</div>
-                <div class="card-url">{{ service.url }}</div>
-            </div>
-            <div class="health-indicator checking" data-service="{{ id }}"></div>
-        </a>
+        </section>
         {% endfor %}
     </main>
 

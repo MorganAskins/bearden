@@ -12,3 +12,4 @@ port = 5000
 # url = "http://localhost:32400"
 # icon = "play-circle"
 # color = "#E5A00D"
+# category = "Media"
