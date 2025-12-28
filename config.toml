@@ -1,0 +1,14 @@
+# Bearden Dashboard Configuration
+#
+# For local overrides (URLs, secrets), create config.local.toml (gitignored).
+# Values in config.local.toml will be deep-merged over this file.
+
+[server]
+port = 5000
+
+# Example services - override URLs in config.local.toml
+# [services.plex]
+# name = "Plex"
+# url = "http://localhost:32400"
+# icon = "play-circle"
+# color = "#E5A00D"
