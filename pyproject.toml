@@ -5,6 +5,7 @@ description = "Simple home server dashboard with redirect cards"
 requires-python = ">=3.11"
 dependencies = [
     "flask>=3.0",
+    "gunicorn>=23.0",
     "requests>=2.31",
 ]
 
